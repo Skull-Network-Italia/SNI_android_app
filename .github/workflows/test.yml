@@ -18,7 +18,7 @@ jobs:
 
       # ---- C / C++ ----
       - name: Analyze C/C++
-        shell: pwsh
+        shell: powershell
         run: |
           $files = Get-ChildItem -Recurse -Include *.c,*.cpp -ErrorAction SilentlyContinue
           if ($files) {
@@ -29,7 +29,7 @@ jobs:
 
       # ---- CMake ----
       - name: Analyze CMake
-        shell: pwsh
+        shell: powershell
         run: |
           if (Test-Path "CMakeLists.txt") {
             cmakelint CMakeLists.txt
@@ -39,7 +39,7 @@ jobs:
 
       # ---- Dart ----
       - name: Analyze Dart
-        shell: pwsh
+        shell: powershell
         run: |
           $files = Get-ChildItem -Recurse -Include *.dart -ErrorAction SilentlyContinue
           if ($files) {
@@ -50,7 +50,7 @@ jobs:
 
       # ---- HTML ----
       - name: Analyze HTML
-        shell: pwsh
+        shell: powershell
         run: |
           $files = Get-ChildItem -Recurse -Include *.html -ErrorAction SilentlyContinue
           if ($files) {
@@ -61,7 +61,7 @@ jobs:
 
       # ---- Swift (best effort) ----
       - name: Analyze Swift
-        shell: pwsh
+        shell: powershell
         continue-on-error: true
         run: |
           $files = Get-ChildItem -Recurse -Include *.swift -ErrorAction SilentlyContinue
