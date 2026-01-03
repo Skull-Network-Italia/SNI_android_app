@@ -1,4 +1,4 @@
-name: CI
+name: Code Analysis
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  analyze:
     runs-on: self-hosted
 
     steps:
@@ -16,10 +16,48 @@ jobs:
         with:
           clean: false
 
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      - name: Run a multi-line script
+      # ---- C / C++ ----
+      - name: Analyze C/C++
         run: |
-          echo Add other actions to build
-          echo test, and deploy your project.
+          if (Test-Path "*.c" -or Test-Path "*.cpp") {
+            clang-tidy *.c *.cpp --quiet
+          } else {
+            echo "No C/C++ files found"
+          }
+
+      # ---- CMake ----
+      - name: Analyze CMake
+        run: |
+          if (Test-Path "CMakeLists.txt") {
+            cmake-lint CMakeLists.txt
+          } else {
+            echo "No CMake files"
+          }
+
+      # ---- Dart ----
+      - name: Analyze Dart
+        run: |
+          if (Test-Path "*.dart") {
+            dart analyze
+          } else {
+            echo "No Dart files"
+          }
+
+      # ---- HTML ----
+      - name: Analyze HTML
+        run: |
+          if (Test-Path "*.html") {
+            htmlhint "**/*.html"
+          } else {
+            echo "No HTML files"
+          }
+
+      # ---- Swift (best effort) ----
+      - name: Analyze Swift
+        continue-on-error: true
+        run: |
+          if (Test-Path "*.swift") {
+            swiftlint
+          } else {
+            echo "No Swift files"
+          }
