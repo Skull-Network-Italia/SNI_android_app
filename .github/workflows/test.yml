@@ -12,15 +12,14 @@ jobs:
     runs-on: self-hosted
 
     steps:
+      # ---- Checkout ----
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           clean: false
 
-      # --------------------
-      # C / C++
-      # --------------------
-      - name: Analyze C / C++
+      # ---- C / C++ (clang-tidy) ----
+      - name: Static analyze C/C++
         shell: powershell
         run: |
           $files = Get-ChildItem -Recurse -Include *.c,*.cpp -ErrorAction SilentlyContinue
@@ -28,52 +27,39 @@ jobs:
             Write-Host "No C/C++ files found"
             exit 0
           }
-
           if (Get-Command clang-tidy -ErrorAction SilentlyContinue) {
             clang-tidy $files.FullName --quiet
           } else {
             Write-Host "clang-tidy not installed"
           }
 
-      # --------------------
-      # CMake
-      # --------------------
-      - name: Analyze CMake
+      # ---- CMake configure check ----
+      - name: CMake configure check
         shell: powershell
         run: |
-          if (-not (Test-Path "CMakeLists.txt")) {
-            Write-Host "No CMakeLists.txt found"
-            exit 0
-          }
-
-          if (Get-Command cmakelint -ErrorAction SilentlyContinue) {
-            cmakelint CMakeLists.txt
+          if (Test-Path "sni_app/windows/CMakeLists.txt") {
+            Write-Host "Running CMake configure"
+            mkdir build-cmake
+            Push-Location build-cmake
+            cmake ..\sni_app\windows
+            Pop-Location
           } else {
-            Write-Host "cmakelint not installed"
+            Write-Host "No CMake project found"
           }
 
-      # --------------------
-      # Dart
-      # --------------------
-      - name: Analyze Dart
+      # ---- Dart/Flutter ----
+      - name: Flutter analysis
         shell: powershell
         run: |
-          $files = Get-ChildItem -Recurse -Include *.dart -ErrorAction SilentlyContinue
-          if (-not $files) {
-            Write-Host "No Dart files found"
-            exit 0
-          }
-
-          if (Get-Command dart -ErrorAction SilentlyContinue) {
-            dart analyze
+          if (Test-Path "sni_app/pubspec.yaml") {
+            flutter pub get
+            flutter analyze
           } else {
-            Write-Host "Dart SDK not installed"
+            Write-Host "No Flutter project found"
           }
 
-      # --------------------
-      # HTML
-      # --------------------
-      - name: Analyze HTML
+      # ---- HTML ----
+      - name: Static HTML analysis
         shell: powershell
         run: |
           $files = Get-ChildItem -Recurse -Include *.html -ErrorAction SilentlyContinue
@@ -81,23 +67,8 @@ jobs:
             Write-Host "No HTML files found"
             exit 0
           }
-
           if (Get-Command htmlhint -ErrorAction SilentlyContinue) {
             htmlhint "**/*.html"
           } else {
             Write-Host "htmlhint not installed"
-          }
-
-      # --------------------
-      # Swift (Windows limit)
-      # --------------------
-      - name: Detect Swift files
-        shell: powershell
-        continue-on-error: true
-        run: |
-          $files = Get-ChildItem -Recurse -Include *.swift -ErrorAction SilentlyContinue
-          if ($files) {
-            Write-Host "Swift files detected (analysis not supported on Windows)"
-          } else {
-            Write-Host "No Swift files found"
           }
