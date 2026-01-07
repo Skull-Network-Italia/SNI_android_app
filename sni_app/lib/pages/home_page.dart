@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../core/constants.dart';
+import 'partner_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -29,7 +30,6 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
-
             ListTile(
               leading: const Icon(Icons.home),
               title: const Text('Home'),
@@ -37,7 +37,6 @@ class HomePage extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
-
             ListTile(
               leading: const Icon(Icons.people),
               title: const Text('Community'),
@@ -45,7 +44,19 @@ class HomePage extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
-
+            ListTile(
+              leading: const Icon(Icons.handshake),
+              title: const Text('Partner'),
+              onTap: () {
+                Navigator.pop(context); // chiude il drawer
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const PartnerPage(),
+                  ),
+                );
+              },
+            ),
             ListTile(
               leading: const Icon(Icons.settings),
               title: const Text('Impostazioni'),
@@ -63,30 +74,23 @@ class HomePage extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 20),
-
             Image.asset(
               'assets/images/sni_logo.png',
               height: 120,
             ),
-
             const SizedBox(height: 20),
-
             Text(
               AppConstants.communityName,
               style: Theme.of(context).textTheme.headlineMedium,
               textAlign: TextAlign.center,
             ),
-
             const SizedBox(height: 20),
-
             Text(
               AppConstants.description,
               style: Theme.of(context).textTheme.bodyMedium,
               textAlign: TextAlign.center,
             ),
-
             const Spacer(),
-
             const Text(
               '© 2026 Skull Network Italia\nTutti i diritti riservati',
               textAlign: TextAlign.center,
