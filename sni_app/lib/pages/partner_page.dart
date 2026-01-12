@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PartnerPage extends StatelessWidget {
   const PartnerPage({super.key});
@@ -30,6 +31,7 @@ class PartnerPage extends StatelessWidget {
               description:
                   'Acquista videogiochi digitali a prezzi scontati '
                   'supportando la community.',
+              url: 'https://www.instant-gaming.com/?igr=bitpredator',
             ),
 
             SizedBox(height: 20),
@@ -40,6 +42,8 @@ class PartnerPage extends StatelessWidget {
               description:
                   'Hosting professionale per server di gioco, '
                   'VPS e infrastrutture dedicate.',
+              url:
+                  'https://zap-hosting.com/a/0dd10586c1b68c4e7ceab6cba0ce2848ed946691?voucher=SkullNetwork-a-6091',
             ),
           ],
         ),
@@ -51,26 +55,58 @@ class PartnerPage extends StatelessWidget {
 class PartnerCard extends StatelessWidget {
   final String name;
   final String description;
+  final String url;
 
-  const PartnerCard({super.key, required this.name, required this.description});
+  const PartnerCard({
+    super.key,
+    required this.name,
+    required this.description,
+    required this.url,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 4,
       child: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               name,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            const SizedBox(height: 10),
+
+            // 🔹 TESTO CLICCABILE
+            InkWell(
+              onTap: () async {
+                final uri = Uri.parse(url);
+                final messenger = ScaffoldMessenger.of(context);
+                try {
+                  if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+                    messenger.showSnackBar(
+                      const SnackBar(content: Text('Impossibile aprire il link')),
+                    );
+                  }
+                } catch (_) {
+                  messenger.showSnackBar(
+                    const SnackBar(content: Text('Errore durante l\'apertura del link')),
+                  );
+                }
+              },
+              child: Text(
+                description,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium
+                    ?.copyWith(
+                      color: Colors.blue,
+                      decoration: TextDecoration.underline,
+                    ),
               ),
             ),
-            const SizedBox(height: 6),
-            Text(description),
           ],
         ),
       ),

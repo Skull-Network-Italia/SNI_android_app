@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../core/constants.dart';
 import 'partner_page.dart';
 
@@ -64,6 +65,17 @@ class HomePage extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
+            ListTile(
+              leading: const Icon(Icons.public),
+              title: const Text('Sito Web'),
+              onTap: () {
+                Navigator.pop(context);
+                _openWebsite(
+                  context,
+                  'https://skullnetworkitalia.zapto.org/bpt-network/',
+                );
+              },
+            ),
           ],
         ),
       ),
@@ -99,6 +111,22 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+Future<void> _openWebsite(BuildContext context, String url) async {
+  final uri = Uri.parse(url);
+  final messenger = ScaffoldMessenger.of(context);
+  try {
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      messenger.showSnackBar(
+        const SnackBar(content: Text('Impossibile aprire il sito')),
+      );
+    }
+  } catch (e) {
+    messenger.showSnackBar(
+      const SnackBar(content: Text('Errore durante l\'apertura del sito')),
     );
   }
 }
