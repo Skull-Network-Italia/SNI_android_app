@@ -2,3 +2,4 @@
 <p align='center'><a href='https://discord.gg/Jrm2Z26ad3'>Discord Skull Network Italia</a>
 
 # Skull Network Italia App Android
+
