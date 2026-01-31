@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:sni_app/l10n/app_localizations.dart';
 
 class PartnerPage extends StatelessWidget {
   const PartnerPage({super.key});
@@ -8,16 +9,16 @@ class PartnerPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Partner'),
+        title: Text(AppLocalizations.of(context)!.partners),
       ),
-      body: const Padding(
-        padding: EdgeInsets.all(20),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'I nostri Partner',
-              style: TextStyle(
+              AppLocalizations.of(context)!.partnersTitle,
+              style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
@@ -84,12 +85,12 @@ class PartnerCard extends StatelessWidget {
                 try {
                   if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
                     messenger.showSnackBar(
-                      const SnackBar(content: Text('Impossibile aprire il link')),
+                      SnackBar(content: Text(AppLocalizations.of(context)!.unableOpenLink)),
                     );
                   }
                 } catch (_) {
                   messenger.showSnackBar(
-                    const SnackBar(content: Text('Errore durante l\'apertura del link')),
+                    SnackBar(content: Text(AppLocalizations.of(context)!.errorOpeningLink)),
                   );
                 }
               },
