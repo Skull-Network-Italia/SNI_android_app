@@ -1,0 +1,22 @@
+{
+  "appTitle": "SNI App",
+  "appName": "Skull Network Italia",
+  "home": "Home",
+  "community": "Community",
+  "partners": "Partner",
+  "settings": "Impostazioni",
+  "website": "Sito Web",
+  "copyright": "© 2026 Skull Network Italia\nTutti i diritti riservati",
+  "communityName": "Skull Network Italia",
+  "description": "Skull Network Italia è la casa virtuale per tutti gli appassionati di videogiochi che cercano esperienze immersive, realistiche e sempre nuove. La nostra community accoglie giocatori da ogni parte d’Italia (e non solo!) uniti dalla passione per il gioco di squadra, il rispetto reciproco e il divertimento. Unisciti al nostro Discord, partecipa ai prossimi eventi, scala le classifiche e diventa parte attiva della nostra rete!",
+  "partnersTitle": "I nostri Partner",
+  "language": "Lingua",
+  "notifications": "Notifiche",
+  "unableOpenLink": "Impossibile aprire il link",
+  "errorOpeningLink": "Errore durante l'apertura del link",
+  "selectLanguage": "Seleziona lingua",
+  "italian": "Italiano",
+  "english": "English",
+  "news": "Notizie",
+  "importantAlerts": "Avvisi importanti"
+} 

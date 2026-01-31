@@ -3,6 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../core/constants.dart';
 import './partner_page.dart';
 import './settings_page.dart';
+import 'package:sni_app/l10n/app_localizations.dart';
 
 // ===== HOME PAGE =====
 
@@ -13,7 +14,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(AppConstants.appName),
+        title: Text(AppLocalizations.of(context)!.appName),
         centerTitle: true,
       ),
 
@@ -36,21 +37,21 @@ class HomePage extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(Icons.home),
-              title: const Text('Home'),
+              title: Text(AppLocalizations.of(context)!.home),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
             ListTile(
               leading: const Icon(Icons.people),
-              title: const Text('Community'),
+              title: Text(AppLocalizations.of(context)!.community),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
             ListTile(
               leading: const Icon(Icons.handshake),
-              title: const Text('Partner'),
+              title: Text(AppLocalizations.of(context)!.partners),
               onTap: () {
                 Navigator.pop(context); // chiude il drawer
                 Navigator.push(
@@ -63,7 +64,7 @@ class HomePage extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(Icons.settings),
-              title: const Text('Impostazioni'),
+              title: Text(AppLocalizations.of(context)!.settings),
               onTap: () {
                 Navigator.pop(context); // chiude il drawer
                 Navigator.push(
@@ -76,7 +77,7 @@ class HomePage extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(Icons.public),
-              title: const Text('Sito Web'),
+              title: Text(AppLocalizations.of(context)!.website),
               onTap: () {
                 Navigator.pop(context);
                 _openWebsite(
@@ -101,21 +102,21 @@ class HomePage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             Text(
-              AppConstants.communityName,
+              AppLocalizations.of(context)!.communityName,
               style: Theme.of(context).textTheme.headlineMedium,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20),
             Text(
-              AppConstants.description,
+              AppLocalizations.of(context)!.description,
               style: Theme.of(context).textTheme.bodyMedium,
               textAlign: TextAlign.center,
             ),
             const Spacer(),
-            const Text(
-              '© 2026 Skull Network Italia\nTutti i diritti riservati',
+            Text(
+              AppLocalizations.of(context)!.copyright,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 12, color: Colors.grey),
+              style: const TextStyle(fontSize: 12, color: Colors.grey),
             ),
           ],
         ),
@@ -130,12 +131,12 @@ Future<void> _openWebsite(BuildContext context, String url) async {
   try {
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
       messenger.showSnackBar(
-        const SnackBar(content: Text('Impossibile aprire il sito')),
+        SnackBar(content: Text(AppLocalizations.of(context)!.unableOpenLink)),
       );
     }
   } catch (e) {
     messenger.showSnackBar(
-      const SnackBar(content: Text('Errore durante l\'apertura del sito')),
+      SnackBar(content: Text(AppLocalizations.of(context)!.errorOpeningLink)),
     );
   }
 }
